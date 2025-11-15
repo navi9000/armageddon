@@ -8,11 +8,12 @@ const Button: MyFC<ButtonProps> = ({
   isSelected,
   children,
   disabled,
+  className,
   ...rest
 }) => {
   return (
     <button
-      className={clsx(styles.button, {
+      className={clsx(styles.button, className, {
         [styles[variant]]: variant,
         [styles.card_selected]: isSelected,
         [styles.disabled]: disabled,
