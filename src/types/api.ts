@@ -1,4 +1,4 @@
-interface Asteroid {
+export interface Asteroid {
   id: string
   name: string
   estimated_diameter: {
@@ -7,7 +7,7 @@ interface Asteroid {
       estimated_diameter_max: number
     }
   }
-  is_potentially_hazardous_asteroid: false
+  is_potentially_hazardous_asteroid: boolean
   close_approach_data: {
     close_approach_date: string
     relative_velocity: {
@@ -21,7 +21,7 @@ interface Asteroid {
   }[]
 }
 
-interface AsteroidListData {
+export interface AsteroidListData {
   links: {
     next: string
   }

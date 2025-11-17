@@ -2,7 +2,7 @@ import { Meta, StoryObj } from "@storybook/nextjs-vite"
 import component from "./Cart"
 
 const meta = {
-  title: "Components/Cart",
+  title: "Modules/Cart",
   component,
 } satisfies Meta<typeof component>
 
