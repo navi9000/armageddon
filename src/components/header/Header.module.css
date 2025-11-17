@@ -1,0 +1,18 @@
+.header {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.logo {
+  font-size: 32px;
+  color: #f86600;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  text-transform: uppercase;
+}
+
+.desc {
+  line-height: 150%;
+  color: #fff;
+}

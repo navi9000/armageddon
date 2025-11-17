@@ -1,0 +1,44 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #000;
+
+  background-image: url("/img/planet_mobile.webp");
+  background-position-x: left 0;
+  background-position-y: 50%;
+  background-repeat: no-repeat;
+  background-size: 48px 436px;
+
+  @media screen and (min-width: 1021px) and (min-height: 621px) {
+    --bg-earthimg-aspect-ratio: 0.645;
+    --bg-earthimg-offset-top: 138px;
+    --bg-earthimg-offset-bottom: 30px;
+    --bg-earthimg-height: calc(
+      100vh - var(--bg-earthimg-offset-top) - var(--bg-earthimg-offset-bottom)
+    );
+    background-image: url("/img/planet_md.webp");
+    background-position-y: var(--bg-earthimg-offset-top);
+    background-size: calc(
+        var(--bg-earthimg-height) * var(--bg-earthimg-aspect-ratio)
+      )
+      var(--bg-earthimg-height);
+  }
+
+  @media screen and (min-width: 1421px) and (min-height: 781px) {
+    background-image: url("/img/planet_lg.webp");
+  }
+}
+
+.body:first-child {
+  flex-grow: 0;
+}
+
+.body:last-child {
+  flex-grow: 0;
+}
+
+.maincontainer {
+  flex-grow: 1;
+  height: 100%;
+}
