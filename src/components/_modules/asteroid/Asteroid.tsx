@@ -8,6 +8,7 @@ import styles from "./Asteroid.module.css"
 import { readableDate } from "@/helpers/dates"
 import { useSearchParams } from "next/navigation"
 import useAsteroid from "@/features/cart/useAsteroid"
+import Link from "next/link"
 
 const getDiameter = (data: Asteroid, measurement: "km" | "lunar") => {
   switch (measurement) {
@@ -60,7 +61,9 @@ const AsteroidCard: MyFC<{
           height={isLarge ? 40 : 24}
         />
         <div>
-          <p className={styles.name}>{data.name}</p>
+          <Link href={`/asteroid/${data.id}`} className={styles.name}>
+            {data.name}
+          </Link>
           <p className={styles.diameter}>
             Ø {data.estimated_diameter.meters.estimated_diameter_min.toFixed(2)}
             м

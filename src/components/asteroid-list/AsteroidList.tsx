@@ -59,7 +59,7 @@ const AsteroidList: MyFC<{ apiRoot: string; apiKey: string }> = ({
     })
   }, [])
 
-  console.count("render list")
+  console.log({ data })
 
   // const parentRef = useRef<HTMLDivElement>(null)
 
