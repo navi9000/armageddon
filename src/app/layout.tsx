@@ -3,8 +3,7 @@ import Header from "@/components/header/Header"
 import type { MyFC } from "@/types"
 import "./reset.css"
 import styles from "./layout.module.css"
-import CartContext from "@/components/_modules/cart/CartContext"
-import CartProvider from "@/components/_modules/cart/CartProvider"
+import CartProvider from "@/features/cart/CartProvider"
 
 const GlobalLayout: MyFC<LayoutProps<"/">> = ({ children }) => {
   return (

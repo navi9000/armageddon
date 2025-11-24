@@ -6,8 +6,8 @@ import type { Asteroid } from "@/types/api"
 import Image from "next/image"
 import styles from "./Asteroid.module.css"
 import { readableDate } from "@/helpers/dates"
-import useCartContext from "../cart/useCartContext"
 import { useSearchParams } from "next/navigation"
+import useAsteroid from "@/features/cart/useAsteroid"
 
 const getDiameter = (data: Asteroid, measurement: "km" | "lunar") => {
   switch (measurement) {
@@ -27,9 +27,9 @@ const getDiameter = (data: Asteroid, measurement: "km" | "lunar") => {
 const AsteroidCard: MyFC<{
   data: Asteroid
   // variant: "default" | "incart" | "nobutton"
-  hasButton: boolean
+  hasButton?: boolean
   // measurement: "km" | "lunar"
-}> = ({ data, hasButton }) => {
+}> = ({ data, hasButton = false }) => {
   const distance = useSearchParams().get("distance")
   const measurement =
     distance === "km" ? "km" : distance === "lunar" ? "lunar" : "km"
@@ -39,8 +39,7 @@ const AsteroidCard: MyFC<{
   const isHazardous = data.is_potentially_hazardous_asteroid
   const hasBottomRow = hasButton || isHazardous
 
-  const { addId, isInCart } = useCartContext()
-  const isSelected = isInCart(data.id)
+  const { isInCart, addAsteroid } = useAsteroid(data)
 
   console.count("render asteroid")
 
@@ -71,12 +70,8 @@ const AsteroidCard: MyFC<{
       {hasBottomRow && (
         <div className={styles.buttoncontainer}>
           {hasButton && (
-            <Button
-              variant="card"
-              isSelected={isSelected}
-              onClick={() => addId(data.id)}
-            >
-              {isSelected ? "в корзине" : "заказать"}
+            <Button variant="card" isSelected={isInCart} onClick={addAsteroid}>
+              {isInCart ? "в корзине" : "заказать"}
             </Button>
           )}
           {isHazardous && <div className={styles.hazardous}>⚠ Опасен</div>}

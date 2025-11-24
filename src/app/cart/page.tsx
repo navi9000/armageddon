@@ -1,7 +1,8 @@
+import CartAsteroidList from "@/components/asteroid-list/CartAsteroidList"
 import { MyFC } from "@/types"
 
 const Page: MyFC<PageProps<"/cart">> = () => {
-  return <main>Cart Page</main>
+  return <CartAsteroidList />
 }
 
 export default Page
