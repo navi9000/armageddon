@@ -9,7 +9,7 @@
   padding: 16px;
   background-color: #232526;
 
-  @media screen and (min-width: 1021px) {
+  @media screen and (min-width: 1021px) and (min-height: 621px) {
     position: initial;
     left: unset;
     bottom: unset;
@@ -17,6 +17,7 @@
     border-radius: 24px;
     flex-direction: column;
     gap: 32px;
+    align-self: flex-start;
   }
 }
 

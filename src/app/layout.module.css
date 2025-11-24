@@ -17,12 +17,12 @@
     --bg-earthimg-height: calc(
       100vh - var(--bg-earthimg-offset-top) - var(--bg-earthimg-offset-bottom)
     );
+    --bg-earthimg-width: calc(
+      var(--bg-earthimg-height) * var(--bg-earthimg-aspect-ratio)
+    );
     background-image: url("/img/planet_md.webp");
     background-position-y: var(--bg-earthimg-offset-top);
-    background-size: calc(
-        var(--bg-earthimg-height) * var(--bg-earthimg-aspect-ratio)
-      )
-      var(--bg-earthimg-height);
+    background-size: var(--bg-earthimg-width) var(--bg-earthimg-height);
   }
 
   @media screen and (min-width: 1421px) and (min-height: 781px) {

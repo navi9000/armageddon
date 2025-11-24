@@ -3,3 +3,7 @@ export function readableDate(date: string) {
     new Date(date)
   )
 }
+
+export function toDatestring(date: Date) {
+  return date.toISOString().split("T")[0]
+}

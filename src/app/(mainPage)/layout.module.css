@@ -1,0 +1,21 @@
+.main {
+  padding: 16px 16px 16px 72px;
+  display: flex;
+
+  @media screen and (min-width: 1021px) and (min-height: 621px) {
+    padding: 8px 16px 16px calc(var(--bg-earthimg-width) + 40px);
+  }
+
+  @media screen and (min-width: 1421px) and (min-height: 781px) {
+    padding: 8px 16px 16px calc(var(--bg-earthimg-width) + 120px);
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  @media screen and (min-width: 1021px) and (min-height: 621px) {
+    width: 402px;
+  }
+}

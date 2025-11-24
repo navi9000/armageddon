@@ -1,8 +1,18 @@
+"use client"
+
 import { MyFC } from "@/types"
 import { Button } from "@/components/_atoms"
 import styles from "./Cart.module.css"
+import useCartContext from "./useCartContext"
+import { useRouter } from "next/navigation"
 
-const Cart: MyFC<{ count: number }> = ({ count }) => {
+const Cart: MyFC = () => {
+  const { count } = useCartContext()
+  const { push } = useRouter()
+
+  const clickButton = () => {
+    push("/cart")
+  }
   return (
     <aside className={styles.cart}>
       <div className={styles.info}>
@@ -13,7 +23,7 @@ const Cart: MyFC<{ count: number }> = ({ count }) => {
           <p className={styles.counter}>Пусто</p>
         )}
       </div>
-      <Button className={styles.button} disabled={!count}>
+      <Button className={styles.button} disabled={!count} onClick={clickButton}>
         Отправить
       </Button>
     </aside>
