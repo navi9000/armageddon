@@ -5,3 +5,21 @@
   max-height: 400px;
   overflow: auto;
 }
+
+.parent {
+  max-height: 400px;
+  overflow: auto;
+  position: relative;
+}
+
+.listcontainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: max-content;
+}

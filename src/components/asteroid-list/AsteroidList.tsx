@@ -2,7 +2,7 @@
 
 import { MyFC } from "@/types"
 import { Asteroid, AsteroidListData } from "@/types/api"
-import { use, useEffect, useRef, useState, cache } from "react"
+import { useEffect, useRef } from "react"
 import AsteroidCard from "../_modules/asteroid/Asteroid"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { toDatestring } from "@/helpers/dates"
@@ -42,7 +42,9 @@ const AsteroidList: MyFC<{ apiRoot: string; apiKey: string }> = ({
   })
 
   const flatList = (data?.pages.flatMap((page) =>
-    Object.values(page.near_earth_objects).flatMap((item) => item)
+    Object.entries(page.near_earth_objects)
+      .sort(([a], [b]) => (a > b ? 1 : -1))
+      .flatMap(([_, item]) => item)
   ) ?? []) as Asteroid[]
 
   const parentRef = useRef<HTMLDivElement>(null)
@@ -80,30 +82,21 @@ const AsteroidList: MyFC<{ apiRoot: string; apiKey: string }> = ({
   }
 
   return (
-    <div
-      ref={parentRef}
-      style={{ maxHeight: "400px", overflow: "auto", position: "relative" }}
-    >
+    <div ref={parentRef} className={styles.parent}>
       <div
+        className={styles.listcontainer}
         style={{
-          display: "flex",
-          flexDirection: "column",
           height: `${rowVirtualizer.getTotalSize()}px`,
         }}
       >
         {rowVirtualizer.getVirtualItems()?.map((virtualItem) => (
-          <div
+          <AsteroidCard
             key={virtualItem.key}
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              height: `max-content`,
-              transform: `translateY(${virtualItem.start}px)`,
-            }}
-          >
-            <AsteroidCard data={flatList[virtualItem.index]} hasButton />
-          </div>
+            className={styles.item}
+            style={{ transform: `translateY(${virtualItem.start}px)` }}
+            data={flatList[virtualItem.index]}
+            hasButton
+          />
         ))}
       </div>
     </div>

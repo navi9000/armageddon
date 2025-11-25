@@ -9,6 +9,8 @@ import { readableDate } from "@/helpers/dates"
 import { useSearchParams } from "next/navigation"
 import useAsteroid from "@/features/cart/useAsteroid"
 import Link from "next/link"
+import clsx from "clsx"
+import type { CSSProperties } from "react"
 
 const getDiameter = (data: Asteroid, measurement: "km" | "lunar") => {
   switch (measurement) {
@@ -28,7 +30,9 @@ const getDiameter = (data: Asteroid, measurement: "km" | "lunar") => {
 const AsteroidCard: MyFC<{
   data: Asteroid
   hasButton?: boolean
-}> = ({ data, hasButton = false }) => {
+  className?: string
+  style?: CSSProperties
+}> = ({ data, hasButton = false, className, style }) => {
   const distance = useSearchParams().get("distance")
   const measurement =
     distance === "km" ? "km" : distance === "lunar" ? "lunar" : "km"
@@ -38,10 +42,8 @@ const AsteroidCard: MyFC<{
 
   const { isInCart, addAsteroid } = useAsteroid(data)
 
-  console.count("render asteroid")
-
   return (
-    <div className={styles.card}>
+    <div className={clsx(styles.card, className)} style={style}>
       <p className={styles.date}>
         {readableDate(data.close_approach_data[0].close_approach_date)}
       </p>
