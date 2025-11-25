@@ -9,7 +9,7 @@
   padding: 16px;
   background-color: #232526;
 
-  @media screen and (min-width: 1021px) and (min-height: 621px) {
+  @media screen and (min-width: 1021px) and (min-height: 600px) and (orientation: landscape) {
     position: initial;
     left: unset;
     bottom: unset;

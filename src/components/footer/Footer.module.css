@@ -4,7 +4,7 @@
   color: #fff;
   padding: 16px;
 
-  @media screen and (min-width: 1021px) {
+  @media screen and (min-width: 1021px) and (orientation: landscape) {
     text-align: center;
   }
 }

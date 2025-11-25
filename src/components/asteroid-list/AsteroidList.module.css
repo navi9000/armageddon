@@ -1,15 +1,12 @@
-.list {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  max-height: 400px;
-  overflow: auto;
-}
-
 .parent {
-  max-height: 400px;
+  max-height: calc(100vh - 390px);
   overflow: auto;
   position: relative;
+  outline: none;
+
+  @media screen and (min-width: 1021px) {
+    max-height: calc(100vh - 328px);
+  }
 }
 
 .listcontainer {

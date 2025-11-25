@@ -58,6 +58,24 @@ export const Default: Story = {
   },
 }
 
+export const DefaultLongDistance: Story = {
+  args: {
+    ...Default.args,
+    data: {
+      ...data,
+      close_approach_data: [
+        {
+          ...data.close_approach_data[0],
+          miss_distance: {
+            kilometers: 999999999,
+            lunar: 999999999,
+          },
+        },
+      ],
+    },
+  },
+}
+
 export const DefaultLarge: Story = {
   args: {
     ...Default.args,

@@ -2,7 +2,7 @@
 
 import type { MyFC } from "@/types"
 import { type Unit, useOption } from "./utils"
-import styles from "./MeasurementPicker.module.css"
+import styles from "./Option.module.css"
 import clsx from "clsx"
 
 const Option: MyFC<{ option: Unit }> = ({ option }) => {

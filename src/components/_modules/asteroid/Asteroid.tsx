@@ -48,7 +48,7 @@ const AsteroidCard: MyFC<{
         {readableDate(data.close_approach_data[0].close_approach_date)}
       </p>
       <div className={styles.content}>
-        <div>
+        <div className={styles.distancecolumn}>
           <p className={styles.distance}>{getDiameter(data, measurement)}</p>
           <Image src="/img/arrow.svg" alt="arrow" width={129} height={6} />
         </div>

@@ -18,6 +18,13 @@
   align-items: center;
 }
 
+.distancecolumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .distance {
   line-height: 150%;
 }

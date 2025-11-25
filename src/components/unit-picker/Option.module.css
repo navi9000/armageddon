@@ -1,0 +1,13 @@
+.option {
+  line-height: 150%;
+  color: #fff;
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  cursor: pointer;
+}
+
+.option_active {
+  text-decoration: none;
+  font-weight: 700;
+  pointer-events: none;
+}
