@@ -1,7 +1,7 @@
 "use client"
 
 import { MyFC } from "@/types"
-import { AsteroidListData } from "@/types/api"
+import { Asteroid, AsteroidListData } from "@/types/api"
 import { use, useEffect, useRef, useState, cache } from "react"
 import AsteroidCard from "../_modules/asteroid/Asteroid"
 import { useInfiniteQuery } from "@tanstack/react-query"
@@ -29,118 +29,85 @@ const AsteroidList: MyFC<{ apiRoot: string; apiKey: string }> = ({
   apiRoot,
   apiKey,
 }) => {
-  // const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
-  //   queryKey: ["asteroids"],
-  //   queryFn: (ctx) => fetchList(ctx.pageParam),
-  //   getNextPageParam: (lastGroup) => {
-  //     console.log({ lastGroup })
-  //     return lastGroup.links.next
-  //   },
-  //   initialPageParam: apiRoot.concat(
-  //     "/feed?start_date=",
-  //     toDatestring(new Date()),
-  //     "&api_key=",
-  //     apiKey
-  //   ),
-  // })
+  const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
+    queryKey: ["asteroid-list"],
+    queryFn: (ctx) => fetchList(ctx.pageParam),
+    getNextPageParam: (prevItem) => prevItem.links.next,
+    initialPageParam: apiRoot.concat(
+      "/feed?start_date=",
+      toDatestring(new Date()),
+      "&api_key=",
+      apiKey
+    ),
+  })
 
-  const [data, setData] = useState<any>(null)
+  const flatList = (data?.pages.flatMap((page) =>
+    Object.values(page.near_earth_objects).flatMap((item) => item)
+  ) ?? []) as Asteroid[]
+
+  const parentRef = useRef<HTMLDivElement>(null)
+
+  const rowVirtualizer = useVirtualizer({
+    count: flatList.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 130.32 + 32,
+  })
 
   useEffect(() => {
-    fetchList(
-      apiRoot.concat(
-        "/feed?start_date=",
-        toDatestring(new Date()),
-        "&api_key=",
-        apiKey
-      )
-    ).then((res) => {
-      console.log({ res: Object.values(res.near_earth_objects) })
-      setData(Object.values(res.near_earth_objects).flatMap((item) => item))
-    })
-  }, [])
+    if (status !== "success") {
+      return
+    }
 
-  console.log({ data })
+    const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse()
 
-  // const parentRef = useRef<HTMLDivElement>(null)
+    if (lastItem.index >= flatList.length - 1 && !isFetchingNextPage) {
+      fetchNextPage()
+    }
+  }, [
+    flatList.length,
+    status,
+    fetchNextPage,
+    isFetchingNextPage,
+    rowVirtualizer.getVirtualItems(),
+  ])
 
-  // const allRows = data
-  //   ? data?.pages.flatMap((page) => {
-  //       console.log({ page })
-  //       return Object.values(page.near_earth_objects).flatMap((item) => item)
-  //     })
-  //   : []
+  if (status === "pending") {
+    return <div>Loading...</div>
+  }
 
-  // console.log({ allRows })
-
-  // const rowVirtualizer = useVirtualizer({
-  //   count: allRows.length,
-  //   getScrollElement: () => parentRef.current,
-  //   estimateSize: () => 136,
-  // })
-
-  // useEffect(() => {
-  //   const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse()
-  //   if (!lastItem) {
-  //     return
-  //   }
-
-  //   if (lastItem.index >= allRows.length - 1 && !isFetchingNextPage) {
-  //     fetchNextPage()
-  //   }
-  // }, [
-  //   fetchNextPage,
-  //   allRows.length,
-  //   isFetchingNextPage,
-  //   rowVirtualizer.getVirtualItems(),
-  // ])
+  if (status === "error") {
+    return <div>Error</div>
+  }
 
   return (
-    <ul className={styles.list}>
-      {data?.map((asteroid: any, index: number) => (
-        <AsteroidCard key={index} data={asteroid} hasButton />
-      ))}
-    </ul>
+    <div
+      ref={parentRef}
+      style={{ maxHeight: "400px", overflow: "auto", position: "relative" }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          height: `${rowVirtualizer.getTotalSize()}px`,
+        }}
+      >
+        {rowVirtualizer.getVirtualItems()?.map((virtualItem) => (
+          <div
+            key={virtualItem.key}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              height: `max-content`,
+              transform: `translateY(${virtualItem.start}px)`,
+            }}
+          >
+            <AsteroidCard data={flatList[virtualItem.index]} hasButton />
+          </div>
+        ))}
+      </div>
+    </div>
   )
-
-  // return (
-  //   <div ref={parentRef}>
-  //     <ul
-  //       style={{
-  //         height: `max-content`,
-  //         width: "100%",
-  //         position: "relative",
-  //       }}
-  //     >
-  //       {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-  //         const asteroid: any = allRows[virtualRow.index]
-  //         const isLoaderRow = virtualRow.index > allRows.length - 1
-
-  //         return isLoaderRow ? (
-  //           <li key={virtualRow.key}>Loading...</li>
-  //         ) : (
-  //           <li
-  //             key={virtualRow.key}
-  //             style={{
-  //               position: "absolute",
-  //               top: 0,
-  //               left: 0,
-  //               width: "100%",
-  //               height: `${virtualRow.size}px`,
-  //               transform: `translateY(${virtualRow.start}px)`,
-  //             }}
-  //           >
-  //             <AsteroidCard
-  //               data={asteroid}
-  //               variant="default"
-  //               measurement="km"
-  //             />
-  //           </li>
-  //         )
-  //       })}
-  //     </ul>
-  //   </div>
-  // )
 }
 
 export default AsteroidList

@@ -27,16 +27,12 @@ const getDiameter = (data: Asteroid, measurement: "km" | "lunar") => {
 
 const AsteroidCard: MyFC<{
   data: Asteroid
-  // variant: "default" | "incart" | "nobutton"
   hasButton?: boolean
-  // measurement: "km" | "lunar"
 }> = ({ data, hasButton = false }) => {
   const distance = useSearchParams().get("distance")
   const measurement =
     distance === "km" ? "km" : distance === "lunar" ? "lunar" : "km"
   const isLarge = data.estimated_diameter.meters.estimated_diameter_min > 100
-  // const hasButton = variant !== "nobutton"
-  // const isSelected = variant === "incart"
   const isHazardous = data.is_potentially_hazardous_asteroid
   const hasBottomRow = hasButton || isHazardous
 
@@ -45,7 +41,7 @@ const AsteroidCard: MyFC<{
   console.count("render asteroid")
 
   return (
-    <li className={styles.card}>
+    <div className={styles.card}>
       <p className={styles.date}>
         {readableDate(data.close_approach_data[0].close_approach_date)}
       </p>
@@ -80,7 +76,7 @@ const AsteroidCard: MyFC<{
           {isHazardous && <div className={styles.hazardous}>⚠ Опасен</div>}
         </div>
       )}
-    </li>
+    </div>
   )
 }
 
