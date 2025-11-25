@@ -14,6 +14,7 @@ async function fetchList(url: string) {
   if (match) {
     return match.json()
   }
+
   const res = await fetch(url)
   if (!res.ok) {
     throw "Not ok"

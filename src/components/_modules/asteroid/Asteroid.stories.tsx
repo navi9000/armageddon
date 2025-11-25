@@ -1,14 +1,9 @@
 import { Meta, StoryObj } from "@storybook/nextjs-vite"
 import component from "./Asteroid"
 import { Asteroid } from "@/types/api"
-
-const meta = { title: "Modules/AsteroidCard", component } satisfies Meta<
-  typeof component
->
-
-export default meta
-
-type Story = StoryObj<typeof meta>
+import CartProvider from "@/features/cart/CartProvider"
+import { useSearchParams } from "next/navigation"
+import { mocked } from "storybook/test"
 
 const data: Asteroid = {
   id: "1",
@@ -22,7 +17,7 @@ const data: Asteroid = {
   is_potentially_hazardous_asteroid: false,
   close_approach_data: [
     {
-      close_approach_date: "2025-11-11",
+      close_approach_date: "2027-01-01",
       relative_velocity: {
         kilometers_per_second: 2,
       },
@@ -35,11 +30,31 @@ const data: Asteroid = {
   ],
 }
 
+const meta = {
+  title: "Modules/AsteroidCard",
+  component,
+  beforeEach: async () => {
+    mocked(useSearchParams).mockReturnValue({
+      get: () => null,
+    } as any)
+  },
+  decorators: [
+    (Child) => (
+      <CartProvider>
+        <Child />
+      </CartProvider>
+    ),
+  ],
+} satisfies Meta<typeof component>
+
+export default meta
+
+type Story = StoryObj<typeof meta>
+
 export const Default: Story = {
   args: {
     data,
-    variant: "default",
-    measurement: "km",
+    hasButton: true,
   },
 }
 
@@ -58,13 +73,6 @@ export const DefaultLarge: Story = {
   },
 }
 
-export const DefaultLunar: Story = {
-  args: {
-    ...Default.args,
-    measurement: "lunar",
-  },
-}
-
 export const DefaultHazardous: Story = {
   args: {
     ...Default.args,
@@ -75,17 +83,34 @@ export const DefaultHazardous: Story = {
   },
 }
 
-export const InCart: Story = {
+export const DefaultLunar: Story = {
   args: {
     ...Default.args,
-    variant: "incart",
   },
+  beforeEach: async () => {
+    mocked(useSearchParams).mockReturnValue({
+      get: () => "lunar",
+    } as any)
+  },
+}
+
+export const DefaultInCart: Story = {
+  args: {
+    ...Default.args,
+  },
+  decorators: [
+    (Child) => (
+      <CartProvider _list={[data]}>
+        <Child />
+      </CartProvider>
+    ),
+  ],
 }
 
 export const NoButton: Story = {
   args: {
     ...Default.args,
-    variant: "nobutton",
+    hasButton: false,
   },
 }
 
