@@ -1,12 +1,37 @@
 .parent {
-  max-height: calc(100vh - 390px);
-  overflow: auto;
+  max-height: calc(100vh - 346px);
+  overflow: hidden;
   position: relative;
   outline: none;
+  scrollbar-width: thin;
+  scrollbar-color: #f86600 transparent;
+  @supports selector(::-webkit-scrollbar-track) {
+    scrollbar-width: initial;
+    scrollbar-color: initial;
+  }
 
-  @media screen and (min-width: 1021px) {
+  @media screen and (min-width: 1021px) and (orientation: landscape) {
     max-height: calc(100vh - 328px);
   }
+}
+
+.parent:hover,
+.parent:focus {
+  overflow: auto;
+}
+
+.parent::-webkit-scrollbar {
+  width: 8px;
+}
+
+.parent::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.parent::-webkit-scrollbar-thumb {
+  background-color: #f86600;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .listcontainer {

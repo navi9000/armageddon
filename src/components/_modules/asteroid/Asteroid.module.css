@@ -8,14 +8,22 @@
 
 .date {
   font-weight: 700;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 133%;
+  @media screen and (min-width: 1021px) {
+    font-size: 24px;
+  }
 }
 
 .content {
   display: flex;
-  gap: 8px;
   align-items: center;
+  font-size: 14px;
+  gap: 8px;
+
+  @media screen and (min-width: 1021px) {
+    font-size: 16px;
+  }
 }
 
 .distancecolumn {
@@ -27,6 +35,19 @@
 
 .distance {
   line-height: 150%;
+}
+
+.distancearrowcontainer {
+  position: relative;
+  height: 6px;
+  width: 100%;
+}
+
+.distancearrow {
+  position: absolute;
+  aspect-ratio: 129 / 6;
+  width: 100%;
+  object-fit: contain;
 }
 
 .name {

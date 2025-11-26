@@ -1,5 +1,9 @@
 .h1 {
-  font-size: 28px;
+  font-size: 24px;
   line-height: 129%;
   color: #fff;
+
+  @media screen and (min-width: 1021px) {
+    font-size: 28px;
+  }
 }

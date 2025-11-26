@@ -17,7 +17,7 @@ const getDiameter = (data: Asteroid, measurement: "km" | "lunar") => {
     case "km":
       return `${Number(
         data.close_approach_data[0].miss_distance.kilometers
-      ).toFixed(0)} километров`
+      ).toFixed(0)} км`
     case "lunar":
       return `${Number(data.close_approach_data[0].miss_distance.lunar).toFixed(
         0
@@ -50,7 +50,14 @@ const AsteroidCard: MyFC<{
       <div className={styles.content}>
         <div className={styles.distancecolumn}>
           <p className={styles.distance}>{getDiameter(data, measurement)}</p>
-          <Image src="/img/arrow.svg" alt="arrow" width={129} height={6} />
+          <div className={styles.distancearrowcontainer}>
+            <Image
+              src="/img/arrow.svg"
+              alt="arrow"
+              className={styles.distancearrow}
+              fill
+            />
+          </div>
         </div>
         <Image
           src="/img/asteroid.png"
