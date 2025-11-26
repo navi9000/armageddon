@@ -1,5 +1,7 @@
 "use client"
 
+import { NASA_API_ROOT, NASA_API_KEY } from "@/config/constants"
+
 async function fetchItem(url: string) {
   const match = await caches.match(url)
   if (match) {
@@ -20,15 +22,13 @@ import { useEffect, useState } from "react"
 
 const AsteroidShowcase: MyFC<{
   id: string
-  apiRoot: string
-  apiKey: string
-}> = ({ id, apiRoot, apiKey }) => {
+}> = ({ id }) => {
   const [data, setData] = useState<any>(null)
 
   useEffect(() => {
-    fetchItem(apiRoot.concat("/neo/", id, "?api_key=", apiKey)).then((res) =>
-      setData(res)
-    )
+    fetchItem(
+      NASA_API_ROOT.concat("/neo/", id, "?api_key=", NASA_API_KEY)
+    ).then((res) => setData(res))
   }, [])
 
   console.log({ data })
