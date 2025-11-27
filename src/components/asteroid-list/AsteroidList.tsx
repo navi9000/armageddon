@@ -2,7 +2,7 @@
 
 import { MyFC } from "@/types"
 import { Asteroid, AsteroidListData } from "@/types/api"
-import { useEffect, useRef } from "react"
+import { Suspense, useEffect, useRef } from "react"
 import AsteroidCard from "../_modules/asteroid/Asteroid"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { toDatestring } from "@/helpers/dates"
@@ -91,15 +91,17 @@ const AsteroidList: MyFC<{ apiRoot: string; apiKey: string; _test: any }> = ({
           height: `${rowVirtualizer.getTotalSize()}px`,
         }}
       >
-        {rowVirtualizer.getVirtualItems()?.map((virtualItem) => (
-          <AsteroidCard
-            key={virtualItem.key}
-            className={styles.item}
-            style={{ transform: `translateY(${virtualItem.start}px)` }}
-            data={flatList[virtualItem.index]}
-            hasButton
-          />
-        ))}
+        <Suspense>
+          {rowVirtualizer.getVirtualItems()?.map((virtualItem) => (
+            <AsteroidCard
+              key={virtualItem.key}
+              className={styles.item}
+              style={{ transform: `translateY(${virtualItem.start}px)` }}
+              data={flatList[virtualItem.index]}
+              hasButton
+            />
+          ))}
+        </Suspense>
       </div>
     </div>
   )
