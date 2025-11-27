@@ -34,7 +34,8 @@ const AsteroidList: MyFC<{ apiRoot: string; apiKey: string; _test: any }> = ({
   const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ["asteroid-list"],
     queryFn: (ctx) => fetchList(ctx.pageParam),
-    getNextPageParam: (prevItem) => prevItem.links.next,
+    getNextPageParam: (prevItem) =>
+      prevItem.links.next.replace("http://", "https://"),
     initialPageParam: apiRoot.concat(
       "/feed?start_date=",
       toDatestring(new Date()),
