@@ -1,6 +1,7 @@
 "use client"
 
-import { NASA_API_ROOT, NASA_API_KEY } from "@/config/constants"
+import { MyFC } from "@/types"
+import { useEffect, useState } from "react"
 
 async function fetchItem(url: string) {
   const match = await caches.match(url)
@@ -17,21 +18,19 @@ async function fetchItem(url: string) {
   return res.json()
 }
 
-import { MyFC } from "@/types"
-import { useEffect, useState } from "react"
-
 const AsteroidShowcase: MyFC<{
   id: string
-}> = ({ id }) => {
+  apiRoot: string
+  apiKey: string
+}> = ({ id, apiRoot, apiKey }) => {
   const [data, setData] = useState<any>(null)
 
   useEffect(() => {
-    fetchItem(
-      NASA_API_ROOT.concat("/neo/", id, "?api_key=", NASA_API_KEY)
-    ).then((res) => setData(res))
+    fetchItem(apiRoot.concat("/neo/", id, "?api_key=", apiKey)).then((res) =>
+      setData(res)
+    )
   }, [])
 
-  console.log({ data })
   if (!data) {
     return <div>"Loading..."</div>
   }

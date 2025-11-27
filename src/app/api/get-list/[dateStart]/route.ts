@@ -8,27 +8,36 @@ export const GET = async (
 ) => {
   try {
     const { dateStart } = await ctx.params
+
+    const url = NASA_API_ROOT.concat(
+      "/feed?start_date=",
+      dateStart,
+      "&api_key=",
+      NASA_API_KEY
+    )
+    console.log({ url })
+
     const res = await fetch(
       NASA_API_ROOT.concat(
         "/feed?start_date=",
-        dateStart,
+        "2025-11-24",
         "&api_key=",
         NASA_API_KEY
-      ),
-      {
-        headers: {
-          "User-Agent": "Mozilla/5.0 (compatible; MyApp/1.0)",
-          Accept: "application/json",
-        },
-      }
+      )
     )
     if (!res.ok) {
+      console.log({
+        text: await res.text(),
+        status: res.status,
+        statusText: res.statusText,
+        body: res.body,
+      })
       throw res.statusText
     }
     const data = await res.json()
     return Response.json({
       is_success: true,
-      data,
+      data: data,
     })
   } catch (e) {
     let errorMessage
@@ -40,9 +49,12 @@ export const GET = async (
       errorMessage = "Unexpected error"
     }
 
-    return Response.json({
-      is_success: false,
-      errorMessage,
-    })
+    return Response.json(
+      {
+        is_success: false,
+        errorMessage,
+      },
+      { status: 500 }
+    )
   }
 }

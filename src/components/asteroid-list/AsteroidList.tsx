@@ -8,7 +8,6 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import { toDatestring } from "@/helpers/dates"
 import { useVirtualizer } from "@tanstack/react-virtual"
 import styles from "./AsteroidList.module.css"
-import { NASA_API_ROOT, NASA_API_KEY } from "@/config/constants"
 
 async function fetchList(url: string) {
   const match = await caches.match(url)
@@ -26,16 +25,19 @@ async function fetchList(url: string) {
   return res.json()
 }
 
-const AsteroidList: MyFC = () => {
+const AsteroidList: MyFC<{ apiRoot: string; apiKey: string }> = ({
+  apiRoot,
+  apiKey,
+}) => {
   const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ["asteroid-list"],
     queryFn: (ctx) => fetchList(ctx.pageParam),
     getNextPageParam: (prevItem) => prevItem.links.next,
-    initialPageParam: NASA_API_ROOT.concat(
+    initialPageParam: apiRoot.concat(
       "/feed?start_date=",
       toDatestring(new Date()),
       "&api_key=",
-      NASA_API_KEY
+      apiKey
     ),
   })
 
