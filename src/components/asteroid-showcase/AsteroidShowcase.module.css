@@ -76,6 +76,7 @@
     scrollbar-width: initial;
     scrollbar-color: initial;
   }
+  padding-bottom: 1px;
 }
 
 .list:hover,
