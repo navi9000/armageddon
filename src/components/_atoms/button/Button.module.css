@@ -18,6 +18,10 @@
   color: #fff;
 }
 
+.default:hover {
+  text-decoration: underline;
+}
+
 .card {
   border-radius: 16px;
   height: 24px;
