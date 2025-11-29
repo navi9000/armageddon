@@ -8,6 +8,7 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import { toDatestring } from "@/helpers/dates"
 import { useVirtualizer } from "@tanstack/react-virtual"
 import styles from "./AsteroidList.module.css"
+import { ROOT_URL } from "@/config/constants"
 
 async function fetchList(url: string) {
   const match = await caches.match(url)

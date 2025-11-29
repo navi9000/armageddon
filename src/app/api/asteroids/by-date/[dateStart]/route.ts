@@ -20,10 +20,17 @@ export const GET = async (
       throw res.statusText
     }
     const data = await res.json()
-    return NextResponse.json({
-      is_success: true,
-      data: data,
-    })
+    return NextResponse.json(
+      {
+        is_success: true,
+        data: data,
+      },
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "http://localhost:3000",
+        },
+      }
+    )
   } catch (e) {
     let errorMessage
     if (typeof e === "string") {
@@ -39,7 +46,12 @@ export const GET = async (
         is_success: false,
         errorMessage,
       },
-      { status: 500 }
+      {
+        status: 500,
+        headers: {
+          "Access-Control-Allow-Origin": "http://localhost:3000",
+        },
+      }
     )
   }
 }

@@ -1,1 +1,1 @@
-export const ROOT_URL = process.env.NEXT_CLIENT_PROJECT_ROOT!
+export const ROOT_URL = process.env.NEXT_PUBLIC_PROJECT_ROOT!
