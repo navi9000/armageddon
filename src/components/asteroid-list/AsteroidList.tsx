@@ -25,12 +25,10 @@ async function fetchList(url: string) {
   return res.json()
 }
 
-const AsteroidList: MyFC<{ apiRoot: string; apiKey: string; _test: any }> = ({
+const AsteroidList: MyFC<{ apiRoot: string; apiKey: string }> = ({
   apiRoot,
   apiKey,
-  _test,
 }) => {
-  console.log({ _test })
   const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ["asteroid-list"],
     queryFn: (ctx) => fetchList(ctx.pageParam),

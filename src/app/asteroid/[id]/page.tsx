@@ -1,6 +1,6 @@
 import AsteroidShowcase from "@/components/asteroid-showcase/AsteroidShowcase"
 import type { MyFC } from "@/types"
-import { NASA_API_ROOT, NASA_API_KEY } from "@/config/constants"
+import { NASA_API_ROOT, NASA_API_KEY } from "@/config/serverOnlyConstants"
 
 const AsteroidPage: MyFC<PageProps<"/asteroid/[id]">> = async ({ params }) => {
   const { id } = await params
