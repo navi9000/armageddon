@@ -20,13 +20,13 @@ export const GET = async (
       throw res.statusText
     }
     const data = await res.json()
-    const nextSearchParams = new URLSearchParams(data.links.next)
+    const nextSearchParams = new URL(data.data.links.next)
     return NextResponse.json(
       {
         is_success: true,
         data,
         meta: {
-          next: nextSearchParams.get("start_date"),
+          next: nextSearchParams.searchParams.get("start_date"),
         },
       },
       {

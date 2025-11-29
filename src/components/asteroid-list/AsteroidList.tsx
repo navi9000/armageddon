@@ -21,7 +21,10 @@ const AsteroidList: MyFC = () => {
     initialPageParam: toDatestring(new Date()),
   })
 
-  console.log({ data, ROOT_URL })
+  console.log({
+    data,
+    ROOT_URL,
+  })
 
   const flatList = (data?.pages.flatMap((page) =>
     Object.entries(page.data.near_earth_objects)
