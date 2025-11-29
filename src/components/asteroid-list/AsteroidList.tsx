@@ -10,41 +10,21 @@ import { useVirtualizer } from "@tanstack/react-virtual"
 import styles from "./AsteroidList.module.css"
 import { ROOT_URL } from "@/config/constants"
 
-async function fetchList(url: string) {
-  const match = await caches.match(url)
-  if (match) {
-    return match.json()
-  }
-
-  const res = await fetch(url)
-  if (!res.ok) {
-    throw "Not ok"
-  }
-  const CACHE_NAME = "Armageddon"
-  const cache = await caches.open(CACHE_NAME)
-  cache.put(url, res.clone())
-  return res.json()
-}
-
-const AsteroidList: MyFC<{ apiRoot: string; apiKey: string }> = ({
-  apiRoot,
-  apiKey,
-}) => {
+const AsteroidList: MyFC = () => {
   const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ["asteroid-list"],
-    queryFn: (ctx) => fetchList(ctx.pageParam),
-    getNextPageParam: (prevItem) =>
-      prevItem.links.next.replace("http://", "https://"),
-    initialPageParam: apiRoot.concat(
-      "/feed?start_date=",
-      toDatestring(new Date()),
-      "&api_key=",
-      apiKey
-    ),
+    queryFn: (ctx) =>
+      fetch(ROOT_URL.concat("/api/asteroids/by-date/", ctx.pageParam)).then(
+        (res) => res.json()
+      ),
+    getNextPageParam: (prevItem) => prevItem.meta.next,
+    initialPageParam: toDatestring(new Date()),
   })
 
+  console.log({ data, ROOT_URL })
+
   const flatList = (data?.pages.flatMap((page) =>
-    Object.entries(page.near_earth_objects)
+    Object.entries(page.data.near_earth_objects)
       .sort(([a], [b]) => (a > b ? 1 : -1))
       .flatMap(([_, item]) => item)
   ) ?? []) as Asteroid[]

@@ -20,10 +20,14 @@ export const GET = async (
       throw res.statusText
     }
     const data = await res.json()
+    const nextSearchParams = new URLSearchParams(data.links.next)
     return NextResponse.json(
       {
         is_success: true,
-        data: data,
+        data,
+        meta: {
+          next: nextSearchParams.get("start_date"),
+        },
       },
       {
         headers: {
