@@ -97,10 +97,3 @@
   border-radius: 5px;
   cursor: pointer;
 }
-
-.button {
-  @media screen and (min-width: 1021px) and (min-height: 600px) and (orientation: landscape) {
-    width: max-content;
-    margin-left: auto;
-  }
-}

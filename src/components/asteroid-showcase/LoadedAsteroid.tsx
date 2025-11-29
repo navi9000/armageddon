@@ -1,12 +1,9 @@
-"use client"
-
 import { MyFC } from "@/types"
 import { Asteroid } from "@/types/api"
 import styles from "./LoadedAsteroid.module.css"
 import Image from "next/image"
-import { Button } from "../_atoms"
 import { readableDate } from "@/helpers/dates"
-import useAsteroid from "@/features/cart/useAsteroid"
+import AsteroidButton from "./AsteroidButton"
 
 const Approach: MyFC<Asteroid["close_approach_data"][number]> = ({
   close_approach_date,
@@ -34,7 +31,6 @@ const Approach: MyFC<Asteroid["close_approach_data"][number]> = ({
 }
 
 const LoadedAsteroid: MyFC<{ data: Asteroid }> = ({ data }) => {
-  const { isInCart, addAsteroid } = useAsteroid(data)
   return (
     <div className={styles.asteroid}>
       <div className={styles.titlecontainer}>
@@ -57,15 +53,7 @@ const LoadedAsteroid: MyFC<{ data: Asteroid }> = ({ data }) => {
         ))}
       </ul>
 
-      {isInCart ? (
-        <Button className={styles.button} disabled>
-          В корзине
-        </Button>
-      ) : (
-        <Button className={styles.button} onClick={addAsteroid}>
-          Заказать
-        </Button>
-      )}
+      <AsteroidButton data={data} />
     </div>
   )
 }
