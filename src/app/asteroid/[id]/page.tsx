@@ -2,8 +2,9 @@ import type { MyFC } from "@/types"
 import { ROOT_URL } from "@/config/constants"
 import LoadedAsteroid from "@/components/asteroid-showcase/LoadedAsteroid"
 import { cacheLife } from "next/cache"
+import { Suspense } from "react"
 
-const AsteroidPage: MyFC<PageProps<"/asteroid/[id]">> = async ({ params }) => {
+const Cached: MyFC<PageProps<"/asteroid/[id]">> = async ({ params }) => {
   "use cache"
   cacheLife("hours")
 
@@ -19,6 +20,14 @@ const AsteroidPage: MyFC<PageProps<"/asteroid/[id]">> = async ({ params }) => {
     <main>
       <LoadedAsteroid data={data.data} />
     </main>
+  )
+}
+
+const AsteroidPage: MyFC<PageProps<"/asteroid/[id]">> = (props) => {
+  return (
+    <Suspense>
+      <Cached {...props} />
+    </Suspense>
   )
 }
 
