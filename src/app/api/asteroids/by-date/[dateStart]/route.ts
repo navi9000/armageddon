@@ -20,7 +20,7 @@ export const GET = async (
       throw res.statusText
     }
     const data = await res.json()
-    const nextSearchParams = new URL(data.data.links.next)
+    const nextSearchParams = new URL(data.links.next)
     return NextResponse.json(
       {
         is_success: true,
