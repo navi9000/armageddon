@@ -1,7 +1,8 @@
+"use client"
+
 import { MyFC } from "@/types"
 import { Asteroid } from "@/types/api"
-import { useEffect, useState } from "react"
-import styles from "./AsteroidShowcase.module.css"
+import styles from "./LoadedAsteroid.module.css"
 import Image from "next/image"
 import { Button } from "../_atoms"
 import { readableDate } from "@/helpers/dates"

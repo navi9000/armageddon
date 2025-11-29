@@ -1,12 +1,19 @@
-import AsteroidShowcase from "@/components/asteroid-showcase/AsteroidShowcase"
 import type { MyFC } from "@/types"
-import { NASA_API_ROOT, NASA_API_KEY } from "@/config/serverOnlyConstants"
+import { ROOT_URL } from "@/config/constants"
+import LoadedAsteroid from "@/components/asteroid-showcase/LoadedAsteroid"
 
 const AsteroidPage: MyFC<PageProps<"/asteroid/[id]">> = async ({ params }) => {
   const { id } = await params
+  const res = await fetch(ROOT_URL.concat("/api/asteroids/", id))
+
+  if (!res.ok) {
+    return <main>Error</main>
+  }
+
+  const data = await res.json()
   return (
     <main>
-      <AsteroidShowcase id={id} apiKey={NASA_API_KEY} apiRoot={NASA_API_ROOT} />
+      <LoadedAsteroid data={data.data} />
     </main>
   )
 }
