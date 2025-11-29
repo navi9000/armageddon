@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
 import { NASA_API_KEY, NASA_API_ROOT } from "@/config/serverOnlyConstants"
+import { cacheLife } from "next/cache"
 
-export const GET = async (
-  req: NextRequest,
-  ctx: RouteContext<"/api/asteroids/[id]">
-) => {
+async function getAsteroid(ctx: RouteContext<"/api/asteroids/[id]">) {
+  "use cache"
+  cacheLife("hours")
+
   try {
     const { id } = await ctx.params
 
@@ -18,17 +19,10 @@ export const GET = async (
 
     const data = await res.json()
 
-    return NextResponse.json(
-      {
-        is_success: true,
-        data,
-      },
-      {
-        headers: {
-          "Access-Control-Allow-Origin": "http://localhost:3000",
-        },
-      }
-    )
+    return {
+      is_success: true,
+      data,
+    }
   } catch (e) {
     let errorMessage
     if (typeof e === "string") {
@@ -39,17 +33,23 @@ export const GET = async (
       errorMessage = "Unexpected error"
     }
 
-    return NextResponse.json(
-      {
-        is_success: false,
-        errorMessage,
-      },
-      {
-        status: 500,
-        headers: {
-          "Access-Control-Allow-Origin": "http://localhost:3000",
-        },
-      }
-    )
+    return {
+      is_success: false,
+      errorMessage,
+    }
   }
+}
+
+export const GET = async (
+  req: NextRequest,
+  ctx: RouteContext<"/api/asteroids/[id]">
+) => {
+  const res = await getAsteroid(ctx)
+
+  return NextResponse.json(res, {
+    status: res.is_success ? 200 : 500,
+    headers: {
+      "Access-Control-Allow-Origin": "http://localhost:3000",
+    },
+  })
 }

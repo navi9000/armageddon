@@ -1,10 +1,13 @@
 import { NASA_API_KEY, NASA_API_ROOT } from "@/config/serverOnlyConstants"
+import { cacheLife } from "next/cache"
 import { NextRequest, NextResponse } from "next/server"
 
-export const GET = async (
-  req: NextRequest,
+async function getList(
   ctx: RouteContext<"/api/asteroids/by-date/[dateStart]">
-) => {
+) {
+  "use cache"
+  cacheLife("hours")
+
   try {
     const { dateStart } = await ctx.params
 
@@ -21,20 +24,13 @@ export const GET = async (
     }
     const data = await res.json()
     const nextSearchParams = new URL(data.links.next)
-    return NextResponse.json(
-      {
-        is_success: true,
-        data,
-        meta: {
-          next: nextSearchParams.searchParams.get("start_date"),
-        },
+    return {
+      is_success: true,
+      data,
+      meta: {
+        next: nextSearchParams.searchParams.get("start_date"),
       },
-      {
-        headers: {
-          "Access-Control-Allow-Origin": "http://localhost:3000",
-        },
-      }
-    )
+    }
   } catch (e) {
     let errorMessage
     if (typeof e === "string") {
@@ -45,17 +41,22 @@ export const GET = async (
       errorMessage = "Unexpected error"
     }
 
-    return NextResponse.json(
-      {
-        is_success: false,
-        errorMessage,
-      },
-      {
-        status: 500,
-        headers: {
-          "Access-Control-Allow-Origin": "http://localhost:3000",
-        },
-      }
-    )
+    return {
+      is_success: false,
+      errorMessage,
+    }
   }
+}
+
+export const GET = async (
+  req: NextRequest,
+  ctx: RouteContext<"/api/asteroids/by-date/[dateStart]">
+) => {
+  const res = await getList(ctx)
+  return NextResponse.json(res, {
+    headers: {
+      "Access-Control-Allow-Origin": "http://localhost:3000",
+    },
+    status: res.is_success ? 200 : 500,
+  })
 }
