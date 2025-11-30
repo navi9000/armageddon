@@ -23,8 +23,7 @@ async function getAsteroid(ctx: RouteContext<"/api/asteroids/[id]">) {
 
     return {
       is_success: true,
-      data,
-      newData: {
+      data: {
         asteroid: {
           id: data.id,
           name: data.name,
