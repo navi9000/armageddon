@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { NASA_API_KEY, NASA_API_ROOT } from "@/config/serverOnlyConstants"
 import { cacheLife } from "next/cache"
+import { toDatestring } from "@/helpers/dates"
 
 async function getAsteroid(ctx: RouteContext<"/api/asteroids/[id]">) {
   "use cache"
@@ -23,6 +24,26 @@ async function getAsteroid(ctx: RouteContext<"/api/asteroids/[id]">) {
     return {
       is_success: true,
       data,
+      newData: {
+        asteroid: {
+          id: data.id,
+          name: data.name,
+          is_hazardous: data.is_potentially_hazardous_asteroid,
+          diameter: data.estimated_diameter.meters.estimated_diameter_min,
+          nearest_approach_index: data.close_approach_data.findIndex(
+            (item: any) => item.close_approach_date >= toDatestring(new Date())
+          ),
+        },
+        approaches: data.close_approach_data.map((entry: any) => ({
+          date: entry.close_approach_date,
+          velocity: entry.relative_velocity.kilometers_per_second,
+          miss_distance: {
+            km: entry.miss_distance.kilometers,
+            lunar: entry.miss_distance.lunar,
+          },
+          orbiting_body: entry.orbiting_body,
+        })),
+      },
     }
   } catch (e) {
     let errorMessage
