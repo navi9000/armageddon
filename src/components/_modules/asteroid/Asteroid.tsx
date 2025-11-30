@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/_atoms"
 import type { MyFC } from "@/types"
-import type { Asteroid } from "@/types/api"
+import type { Asteroid_v2 } from "@/types/api"
 import Image from "next/image"
 import styles from "./Asteroid.module.css"
 import { readableDate } from "@/helpers/dates"
@@ -12,23 +12,22 @@ import Link from "next/link"
 import clsx from "clsx"
 import type { CSSProperties } from "react"
 
-const getDiameter = (data: Asteroid, measurement: "km" | "lunar") => {
+const getDiameter = (
+  distance: Asteroid_v2["approaches"][number]["miss_distance"],
+  measurement: "km" | "lunar"
+) => {
   switch (measurement) {
     case "km":
-      return `${Number(
-        data.close_approach_data[0].miss_distance.kilometers
-      ).toFixed(0)} км`
+      return `${Number(distance.km).toFixed(0)} км`
     case "lunar":
-      return `${Number(data.close_approach_data[0].miss_distance.lunar).toFixed(
-        0
-      )} лунных орбит`
+      return `${Number(distance.lunar).toFixed(0)} лунных орбит`
     default:
       return ""
   }
 }
 
 const AsteroidCard: MyFC<{
-  data: Asteroid
+  data: Asteroid_v2
   hasButton?: boolean
   className?: string
   style?: CSSProperties
@@ -36,20 +35,29 @@ const AsteroidCard: MyFC<{
   const distance = useSearchParams().get("distance")
   const measurement =
     distance === "km" ? "km" : distance === "lunar" ? "lunar" : "km"
-  const isLarge = data.estimated_diameter.meters.estimated_diameter_min > 100
-  const isHazardous = data.is_potentially_hazardous_asteroid
+  const isLarge = data.asteroid.diameter > 100
+  const isHazardous = data.asteroid.is_hazardous
   const hasBottomRow = hasButton || isHazardous
 
-  const { isInCart, addAsteroid } = useAsteroid(data)
+  // const { isInCart, addAsteroid } = useAsteroid(data)
+  const [isInCart, addAsteroid] = [false, () => {}]
 
   return (
     <div className={clsx(styles.card, className)} style={style}>
       <p className={styles.date}>
-        {readableDate(data.close_approach_data[0].close_approach_date)}
+        {readableDate(
+          data.approaches[data.asteroid.nearest_approach_index].date
+        )}
       </p>
       <div className={styles.content}>
         <div className={styles.distancecolumn}>
-          <p className={styles.distance}>{getDiameter(data, measurement)}</p>
+          <p className={styles.distance}>
+            {getDiameter(
+              data.approaches[data.asteroid.nearest_approach_index]
+                .miss_distance,
+              measurement
+            )}
+          </p>
           <div className={styles.distancearrowcontainer}>
             <Image
               src="/img/arrow.svg"
@@ -66,12 +74,11 @@ const AsteroidCard: MyFC<{
           height={isLarge ? 40 : 24}
         />
         <div>
-          <Link href={`/asteroid/${data.id}`} className={styles.name}>
-            {data.name}
+          <Link href={`/asteroid/${data.asteroid.id}`} className={styles.name}>
+            {data.asteroid.name}
           </Link>
           <p className={styles.diameter}>
-            Ø {data.estimated_diameter.meters.estimated_diameter_min.toFixed(2)}
-            м
+            Ø {data.asteroid.diameter.toFixed(2)}м
           </p>
         </div>
       </div>

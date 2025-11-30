@@ -1,7 +1,7 @@
 "use client"
 
 import { MyFC } from "@/types"
-import { Asteroid, AsteroidListData } from "@/types/api"
+import { Asteroid_v2 } from "@/types/api"
 import { Suspense, useEffect, useRef } from "react"
 import AsteroidCard from "../_modules/asteroid/Asteroid"
 import { useInfiniteQuery } from "@tanstack/react-query"
@@ -27,10 +27,8 @@ const AsteroidList: MyFC = () => {
   })
 
   const flatList = (data?.pages.flatMap((page) =>
-    Object.entries(page.data.near_earth_objects)
-      .sort(([a], [b]) => (a > b ? 1 : -1))
-      .flatMap(([_, item]) => item)
-  ) ?? []) as Asteroid[]
+    Object.entries(page.data).map(([_, item]) => item)
+  ) ?? []) as Asteroid_v2[]
 
   const parentRef = useRef<HTMLDivElement>(null)
 
