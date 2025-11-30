@@ -3,7 +3,7 @@ import component from "./Cart"
 import CartProvider from "@/features/cart/CartProvider"
 import { useRouter } from "next/navigation"
 import { mocked } from "storybook/test"
-import type { Asteroid } from "@/types/api"
+import type { Asteroid_v2 } from "@/types/api"
 
 const meta = {
   title: "Modules/Cart",
@@ -19,25 +19,21 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-const data: Asteroid = {
-  id: "1",
-  name: "Ast name",
-  estimated_diameter: {
-    meters: {
-      estimated_diameter_min: 10,
-      estimated_diameter_max: 15,
-    },
+const data: Asteroid_v2 = {
+  asteroid: {
+    id: "1",
+    name: "Ast name",
+    is_hazardous: false,
+    diameter: 10,
+    nearest_approach_index: 0,
   },
-  is_potentially_hazardous_asteroid: false,
-  close_approach_data: [
+  approaches: [
     {
-      close_approach_date: "2027-01-01",
-      relative_velocity: {
-        kilometers_per_second: 2,
-      },
+      date: "2027-01-01",
+      velocity: "2",
       miss_distance: {
-        lunar: 12,
-        kilometers: 1987,
+        km: "12",
+        lunar: "12",
       },
       orbiting_body: "Earth",
     },

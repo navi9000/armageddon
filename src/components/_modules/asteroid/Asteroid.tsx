@@ -39,8 +39,7 @@ const AsteroidCard: MyFC<{
   const isHazardous = data.asteroid.is_hazardous
   const hasBottomRow = hasButton || isHazardous
 
-  // const { isInCart, addAsteroid } = useAsteroid(data)
-  const [isInCart, addAsteroid] = [false, () => {}]
+  const { isInCart, addAsteroid } = useAsteroid(data)
 
   return (
     <div className={clsx(styles.card, className)} style={style}>

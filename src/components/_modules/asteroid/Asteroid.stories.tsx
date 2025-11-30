@@ -115,9 +115,9 @@ export const DefaultInCart: Story = {
   },
   decorators: [
     (Child) => (
-      // <CartProvider _list={[data]}>
-      <Child />
-      // </CartProvider>
+      <CartProvider _list={[data]}>
+        <Child />
+      </CartProvider>
     ),
   ],
 }
