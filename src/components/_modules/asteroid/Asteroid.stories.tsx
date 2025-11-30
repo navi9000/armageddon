@@ -1,29 +1,25 @@
 import { Meta, StoryObj } from "@storybook/nextjs-vite"
 import component from "./Asteroid"
-import { Asteroid } from "@/types/api"
+import { Asteroid, Asteroid_v2 } from "@/types/api"
 import CartProvider from "@/features/cart/CartProvider"
 import { useSearchParams } from "next/navigation"
 import { mocked } from "storybook/test"
 
-const data: Asteroid = {
-  id: "1",
-  name: "Ast name",
-  estimated_diameter: {
-    meters: {
-      estimated_diameter_min: 10,
-      estimated_diameter_max: 15,
-    },
+const data: Asteroid_v2 = {
+  asteroid: {
+    id: "1",
+    name: "Ast name",
+    is_hazardous: false,
+    diameter: 10,
+    nearest_approach_index: 0,
   },
-  is_potentially_hazardous_asteroid: false,
-  close_approach_data: [
+  approaches: [
     {
-      close_approach_date: "2027-01-01",
-      relative_velocity: {
-        kilometers_per_second: 2,
-      },
+      date: "2027-01-01",
+      velocity: "2",
       miss_distance: {
-        lunar: 12,
-        kilometers: 1987,
+        km: "12",
+        lunar: "12",
       },
       orbiting_body: "Earth",
     },
@@ -63,12 +59,12 @@ export const DefaultLongDistance: Story = {
     ...Default.args,
     data: {
       ...data,
-      close_approach_data: [
+      approaches: [
         {
-          ...data.close_approach_data[0],
+          ...data.approaches[0],
           miss_distance: {
-            kilometers: 999999999,
-            lunar: 999999999,
+            km: "9999999999999",
+            lunar: "99999999999999",
           },
         },
       ],
@@ -81,11 +77,9 @@ export const DefaultLarge: Story = {
     ...Default.args,
     data: {
       ...data,
-      estimated_diameter: {
-        meters: {
-          estimated_diameter_min: 200,
-          estimated_diameter_max: 250,
-        },
+      asteroid: {
+        ...data.asteroid,
+        diameter: 200,
       },
     },
   },
@@ -96,7 +90,10 @@ export const DefaultHazardous: Story = {
     ...Default.args,
     data: {
       ...data,
-      is_potentially_hazardous_asteroid: true,
+      asteroid: {
+        ...data.asteroid,
+        is_hazardous: true,
+      },
     },
   },
 }
@@ -118,9 +115,9 @@ export const DefaultInCart: Story = {
   },
   decorators: [
     (Child) => (
-      <CartProvider _list={[data]}>
-        <Child />
-      </CartProvider>
+      // <CartProvider _list={[data]}>
+      <Child />
+      // </CartProvider>
     ),
   ],
 }
@@ -137,7 +134,10 @@ export const NoButtonHazardous: Story = {
     ...NoButton.args,
     data: {
       ...data,
-      is_potentially_hazardous_asteroid: true,
+      asteroid: {
+        ...data.asteroid,
+        is_hazardous: true,
+      },
     },
   },
 }
