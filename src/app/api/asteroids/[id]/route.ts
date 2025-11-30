@@ -9,7 +9,8 @@ async function getAsteroid(ctx: RouteContext<"/api/asteroids/[id]">) {
   try {
     const { id } = await ctx.params
 
-    const url = NASA_API_ROOT.concat("/neo/", id, "?api_key=", NASA_API_KEY)
+    const url = new URL(NASA_API_ROOT.concat("/neo/", id))
+    url.searchParams.set("api_key", NASA_API_KEY)
 
     const res = await fetch(url)
 

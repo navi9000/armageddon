@@ -11,12 +11,10 @@ async function getList(
   try {
     const { dateStart } = await ctx.params
 
-    const url = NASA_API_ROOT.concat(
-      "/feed?start_date=",
-      dateStart,
-      "&api_key=",
-      NASA_API_KEY
-    )
+    const url = new URL(NASA_API_ROOT.concat("/feed"))
+    url.searchParams.set("start_date", dateStart)
+    url.searchParams.set("end_date", dateStart)
+    url.searchParams.set("api_key", NASA_API_KEY)
 
     const res = await fetch(url)
     if (!res.ok) {
