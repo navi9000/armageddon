@@ -3,16 +3,13 @@ import Header from "@/components/header/Header"
 import type { MyFC } from "@/types"
 import "./reset.css"
 import styles from "./layout.module.css"
-import CartProvider from "@/features/cart/CartProvider"
 
 const GlobalLayout: MyFC<LayoutProps<"/">> = ({ children }) => {
   return (
     <html>
       <body className={styles.body}>
         <Header />
-        <CartProvider>
-          <div className={styles.maincontainer}>{children}</div>
-        </CartProvider>
+        <div className={styles.maincontainer}>{children}</div>
         <Footer />
       </body>
     </html>

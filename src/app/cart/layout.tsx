@@ -1,5 +1,5 @@
 import type { MyFC } from "@/types"
-import styles from "../(mainPage)/layout.module.css"
+import styles from "../page.module.css"
 import MainHeader from "@/components/_atoms/main-header/MainHeader"
 
 const CartLayout: MyFC<LayoutProps<"/cart">> = ({ children }) => {

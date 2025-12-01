@@ -1,29 +1,10 @@
-import type { Asteroid_v2 } from "@/types/api"
-import useCartContext from "./useCartContext"
-import { useSyncExternalStore } from "react"
+import useTEMP_cartContext from "./useTEMP_cartContext"
 
-export default function useAsteroid(item: Asteroid_v2) {
-  const { addItem, observer, list } = useCartContext()
+export default function useAsteroid(id: string) {
+  const { isInCart, addItem } = useTEMP_cartContext()
 
-  const isInCart = useSyncExternalStore(
-    (callback) => {
-      observer.current.subscribe(callback)
-
-      return () => {
-        observer.current.unsubscribe(callback)
-      }
-    },
-    () =>
-      list.current.some(
-        (listItem) => listItem.asteroid.id === item.asteroid.id
-      ),
-    () => false
-  )
-
-  const value = {
-    addAsteroid: () => addItem(item),
-    isInCart,
+  return {
+    isInCart: isInCart(id),
+    addItem: () => addItem(id),
   }
-
-  return value
 }

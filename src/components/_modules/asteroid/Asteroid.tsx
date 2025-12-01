@@ -1,16 +1,15 @@
 "use client"
 
-import { Button } from "@/components/_atoms"
 import type { MyFC } from "@/types"
 import type { Asteroid_v2 } from "@/types/api"
 import Image from "next/image"
 import styles from "./Asteroid.module.css"
 import { readableDate } from "@/helpers/dates"
 import { useSearchParams } from "next/navigation"
-import useAsteroid from "@/features/cart/useAsteroid"
 import Link from "next/link"
 import clsx from "clsx"
 import type { CSSProperties } from "react"
+import AsteroidButton from "./AsteroidButton"
 
 const getDiameter = (
   distance: Asteroid_v2["approaches"][number]["miss_distance"],
@@ -38,8 +37,6 @@ const AsteroidCard: MyFC<{
   const isLarge = data.asteroid.diameter > 100
   const isHazardous = data.asteroid.is_hazardous
   const hasBottomRow = hasButton || isHazardous
-
-  const { isInCart, addAsteroid } = useAsteroid(data)
 
   return (
     <div className={clsx(styles.card, className)} style={style}>
@@ -84,9 +81,10 @@ const AsteroidCard: MyFC<{
       {hasBottomRow && (
         <div className={styles.buttoncontainer}>
           {hasButton && (
-            <Button variant="card" isSelected={isInCart} onClick={addAsteroid}>
-              {isInCart ? "в корзине" : "заказать"}
-            </Button>
+            // <Button variant="card" isSelected={isInCart} onClick={onClick}>
+            //   {isInCart ? "в корзине" : "заказать"}
+            // </Button>
+            <AsteroidButton id={data.asteroid.id} />
           )}
           {isHazardous && <div className={styles.hazardous}>⚠ Опасен</div>}
         </div>

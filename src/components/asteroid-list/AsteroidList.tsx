@@ -21,11 +21,6 @@ const AsteroidList: MyFC = () => {
     initialPageParam: toDatestring(new Date()),
   })
 
-  console.log({
-    data,
-    ROOT_URL,
-  })
-
   const flatList = (data?.pages.flatMap((page) =>
     Object.entries(page.data).map(([_, item]) => item)
   ) ?? []) as Asteroid_v2[]
