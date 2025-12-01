@@ -44,5 +44,5 @@ next-env.d.ts
 storybook-static
 
 #db
-/src/app/api/_db/database.sqlite
+
 
