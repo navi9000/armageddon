@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from "@storybook/nextjs-vite"
 import component from "./Asteroid"
 import { Asteroid_v2 } from "@/types/api"
-import CartProvider from "@/features/cart/CartProvider"
+import CartProvider from "@/features/cart/TEMP_CartProvider"
 import { useSearchParams } from "next/navigation"
 import { mocked } from "storybook/test"
 
@@ -36,7 +36,7 @@ const meta = {
   },
   decorators: [
     (Child) => (
-      <CartProvider>
+      <CartProvider initialData={[]}>
         <Child />
       </CartProvider>
     ),
@@ -115,7 +115,7 @@ export const DefaultInCart: Story = {
   },
   decorators: [
     (Child) => (
-      <CartProvider _list={[data]}>
+      <CartProvider initialData={[data, data]}>
         <Child />
       </CartProvider>
     ),
