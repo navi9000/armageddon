@@ -4,10 +4,9 @@ import { MyFC } from "@/types"
 import { PropsWithChildren, useState, useEffect } from "react"
 import TEMP_CartContext from "./TEMP_CartContext"
 
-const TEMP_CartProvider: MyFC<PropsWithChildren<{ initialData: any[] }>> = ({
-  children,
-  initialData,
-}) => {
+const TEMP_CartProvider: MyFC<
+  PropsWithChildren<{ initialData: { asteroidId: string }[] }>
+> = ({ children, initialData }) => {
   const [asteroidIdList, setAsteroidIdList] = useState<string[]>(
     initialData.map((item) => item.asteroidId)
   )

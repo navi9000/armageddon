@@ -115,7 +115,12 @@ export const DefaultInCart: Story = {
   },
   decorators: [
     (Child) => (
-      <CartProvider initialData={[data, data]}>
+      <CartProvider
+        initialData={[
+          { asteroidId: data.asteroid.id },
+          { asteroidId: data.asteroid.id },
+        ]}
+      >
         <Child />
       </CartProvider>
     ),

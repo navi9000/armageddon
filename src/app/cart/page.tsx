@@ -1,5 +1,5 @@
 import { MyFC } from "@/types"
-import { CartItem } from "../api/_db/database"
+import database from "../api/_db/database"
 import { ROOT_URL } from "@/config/constants"
 import { Asteroid_v2 } from "@/types/api"
 import AsteroidCard from "@/components/_modules/asteroid/Asteroid"
@@ -10,11 +10,8 @@ import { cacheTag } from "next/cache"
 const Page: MyFC<PageProps<"/cart">> = async () => {
   "use cache"
   cacheTag("cart")
-  const data = await CartItem.findAll({
-    where: {
-      userId: "1",
-    },
-  }).then((res) => res.map((item) => item.dataValues))
+
+  const data = database.getByUser("1")
 
   const asteroidList = await Promise.all(
     data.map((item) =>
