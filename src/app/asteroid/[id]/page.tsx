@@ -1,8 +1,10 @@
 import type { MyFC } from "@/types"
 import { ROOT_URL } from "@/config/constants"
 import LoadedAsteroid from "@/components/asteroid-showcase/LoadedAsteroid"
-import { cacheLife } from "next/cache"
-import { Suspense } from "react"
+import { cacheLife, cacheTag } from "next/cache"
+import { PropsWithChildren, Suspense } from "react"
+import { CartItem } from "@/app/api/_db/database"
+import TEMP_CartProvider from "@/features/cart/TEMP_CartProvider"
 
 const Cached: MyFC<PageProps<"/asteroid/[id]">> = async ({ params }) => {
   "use cache"

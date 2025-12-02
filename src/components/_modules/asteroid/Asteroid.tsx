@@ -38,21 +38,18 @@ const AsteroidCard: MyFC<{
   const isHazardous = data.asteroid.is_hazardous
   const hasBottomRow = hasButton || isHazardous
 
+  const nearestApproach = data.approaches[data.asteroid.nearest_approach_index]
+
   return (
     <div className={clsx(styles.card, className)} style={style}>
       <p className={styles.date}>
-        {readableDate(
-          data.approaches[data.asteroid.nearest_approach_index].date
-        )}
+        {!!nearestApproach && readableDate(nearestApproach.date)}
       </p>
       <div className={styles.content}>
         <div className={styles.distancecolumn}>
           <p className={styles.distance}>
-            {getDiameter(
-              data.approaches[data.asteroid.nearest_approach_index]
-                .miss_distance,
-              measurement
-            )}
+            {!!nearestApproach &&
+              getDiameter(nearestApproach.miss_distance, measurement)}
           </p>
           <div className={styles.distancearrowcontainer}>
             <Image
