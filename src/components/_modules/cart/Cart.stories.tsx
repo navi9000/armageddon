@@ -4,6 +4,7 @@ import CartProvider from "@/features/cart/TEMP_CartProvider"
 import { useRouter } from "next/navigation"
 import { mocked } from "storybook/test"
 import type { Asteroid_v2 } from "@/types/api"
+import useCart from "@/features/cart/useCart"
 
 const meta = {
   title: "Modules/Cart",

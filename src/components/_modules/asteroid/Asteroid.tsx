@@ -80,12 +80,7 @@ const AsteroidCard: MyFC<{
       </div>
       {hasBottomRow && (
         <div className={styles.buttoncontainer}>
-          {hasButton && (
-            // <Button variant="card" isSelected={isInCart} onClick={onClick}>
-            //   {isInCart ? "в корзине" : "заказать"}
-            // </Button>
-            <AsteroidButton id={data.asteroid.id} />
-          )}
+          {hasButton && <AsteroidButton id={data.asteroid.id} />}
           {isHazardous && <div className={styles.hazardous}>⚠ Опасен</div>}
         </div>
       )}

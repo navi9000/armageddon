@@ -1,11 +1,15 @@
 "use server"
 
-import database from "@/app/api/_db/database"
+import { CartItem } from "@/app/api/_db/database"
 import { updateTag } from "next/cache"
 
 export default async function clearCart({ userId }: { userId: string }) {
   try {
-    database.deleteByUser(userId)
+    await CartItem.destroy({
+      where: {
+        userId,
+      },
+    })
 
     updateTag("cart")
     return {

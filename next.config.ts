@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
   cacheComponents: true,
-  serverExternalPackages: ["sequelize", "sqlite3"],
+  serverExternalPackages: ["sequelize"],
 }
 
 export default nextConfig

@@ -4,6 +4,7 @@ import { Asteroid_v2 } from "@/types/api"
 import CartProvider from "@/features/cart/TEMP_CartProvider"
 import { useSearchParams } from "next/navigation"
 import { mocked } from "storybook/test"
+import addToCart from "@/actions/addToCart"
 
 const data: Asteroid_v2 = {
   asteroid: {
@@ -33,6 +34,9 @@ const meta = {
     mocked(useSearchParams).mockReturnValue({
       get: () => null,
     } as any)
+    mocked(addToCart).mockReturnValue(
+      Promise.resolve({ is_success: true, data: {} })
+    )
   },
   decorators: [
     (Child) => (
@@ -106,6 +110,9 @@ export const DefaultLunar: Story = {
     mocked(useSearchParams).mockReturnValue({
       get: () => "lunar",
     } as any)
+    mocked(addToCart).mockReturnValue(
+      Promise.resolve({ is_success: true, data: {} })
+    )
   },
 }
 
