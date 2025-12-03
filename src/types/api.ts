@@ -18,3 +18,15 @@ export interface Asteroid_v2 {
   }
   approaches: Approach[]
 }
+
+export interface SuccessfulApiResponse<T> {
+  is_success: true
+  data: T
+}
+
+export interface UnsuccessfulApiResponse {
+  is_success: false
+  errorMessage: string
+}
+
+export type ApiResponse<T> = SuccessfulApiResponse<T> | UnsuccessfulApiResponse

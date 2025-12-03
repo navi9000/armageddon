@@ -8,21 +8,18 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import { toDatestring } from "@/helpers/dates"
 import { useVirtualizer } from "@tanstack/react-virtual"
 import styles from "./AsteroidList.module.css"
-import { ROOT_URL } from "@/config/constants"
+import { fetchAsteroidList } from "@/helpers/requests"
 
 const AsteroidList: MyFC = () => {
   const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ["asteroid-list"],
-    queryFn: (ctx) =>
-      fetch(ROOT_URL.concat("/api/asteroids/by-date/", ctx.pageParam)).then(
-        (res) => res.json()
-      ),
-    getNextPageParam: (prevItem) => prevItem.meta.next,
+    queryFn: (ctx) => fetchAsteroidList(ctx.pageParam),
+    getNextPageParam: (prevItem) => prevItem.next,
     initialPageParam: toDatestring(new Date()),
   })
 
   const flatList = (data?.pages.flatMap((page) =>
-    Object.entries(page.data).map(([_, item]) => item)
+    Object.entries(page.asteroidList).map(([_, item]) => item)
   ) ?? []) as Asteroid_v2[]
 
   const parentRef = useRef<HTMLDivElement>(null)
@@ -52,11 +49,11 @@ const AsteroidList: MyFC = () => {
   ])
 
   if (status === "pending") {
-    return <div>Loading...</div>
+    return <div>Загрузка...</div>
   }
 
   if (status === "error") {
-    return <div>Error</div>
+    return <div>Ошибка</div>
   }
 
   return (

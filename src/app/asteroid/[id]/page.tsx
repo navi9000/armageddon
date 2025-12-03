@@ -1,27 +1,20 @@
 import type { MyFC } from "@/types"
 import { ROOT_URL } from "@/config/constants"
 import LoadedAsteroid from "@/components/asteroid-showcase/LoadedAsteroid"
-import { cacheLife, cacheTag } from "next/cache"
-import { PropsWithChildren, Suspense } from "react"
-import { CartItem } from "@/app/api/_db/database"
-import TEMP_CartProvider from "@/features/cart/CartProvider"
+import { cacheLife } from "next/cache"
+import { Suspense } from "react"
+import { fetchAsteroidById } from "@/helpers/requests"
 
 const Cached: MyFC<PageProps<"/asteroid/[id]">> = async ({ params }) => {
   "use cache"
   cacheLife("hours")
 
   const { id } = await params
-  const res = await fetch(ROOT_URL.concat("/api/asteroids/", id))
-
-  if (!res.ok) {
-    throw res.statusText
-  }
-
-  const json = await res.json()
+  const data = await fetchAsteroidById(id)
 
   return (
     <main>
-      <LoadedAsteroid data={json.data} />
+      <LoadedAsteroid data={data} />
     </main>
   )
 }
