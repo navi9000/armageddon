@@ -1,5 +1,6 @@
 import { usePathname, useSearchParams, useRouter } from "next/navigation"
 import type { Resolve } from "@/types"
+import { useOptimistic, useTransition } from "react"
 
 const OPTIONS = ["km", "lunar"] as const
 const defaultOption = OPTIONS[0]
@@ -20,11 +21,22 @@ export function useOption(option: Unit): Resolve<UseOptionResult> {
   const selectedOption = useSelectedOption()
   const pathname = usePathname()
   const { replace } = useRouter()
+  const [optimisticOption, setOptimisticOption] = useOptimistic(
+    selectedOption,
+    (_, newResult: Unit) => newResult
+  )
+  const [pending, startTransition] = useTransition()
 
-  const isActive = selectedOption === option
+  const isActive = optimisticOption === option
 
   const selectOption = () => {
-    replace(pathname.concat(`?distance=${option}`))
+    if (pending) {
+      return
+    }
+    startTransition(() => {
+      setOptimisticOption(option)
+      replace(pathname.concat(`?distance=${option}`))
+    })
   }
 
   return [isActive, selectOption]

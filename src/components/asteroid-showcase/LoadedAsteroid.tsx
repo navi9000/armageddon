@@ -48,8 +48,8 @@ const LoadedAsteroid: MyFC<{ data: Asteroid_v2 }> = ({
 
       <h2>Сближения</h2>
       <ul className={styles.list}>
-        {approaches.map((approach) => (
-          <ApproachListItem key={approach.date} {...approach} />
+        {approaches.map((approach, index) => (
+          <ApproachListItem key={index} {...approach} />
         ))}
       </ul>
 

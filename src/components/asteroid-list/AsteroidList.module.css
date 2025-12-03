@@ -15,6 +15,12 @@
   }
 }
 
+.parent_cart {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .parent:hover,
 .parent:focus {
   overflow: auto;

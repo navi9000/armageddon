@@ -6,6 +6,7 @@ import AsteroidCard from "@/components/_modules/asteroid/Asteroid"
 import CartButton from "./CartButton"
 import styles from "@/components/asteroid-list/AsteroidList.module.css"
 import { cacheTag } from "next/cache"
+import clsx from "clsx"
 
 const Page: MyFC<PageProps<"/cart">> = async () => {
   "use cache"
@@ -26,7 +27,7 @@ const Page: MyFC<PageProps<"/cart">> = async () => {
   )
 
   return (
-    <div className={styles.parent}>
+    <div className={clsx(styles.parent, styles.parent_cart)}>
       <div className={styles.listcontainer}>
         {asteroidList?.map((asteroid, index: number) => (
           <AsteroidCard key={index} data={asteroid} />
