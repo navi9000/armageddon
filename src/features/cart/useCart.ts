@@ -1,7 +1,7 @@
-import useTEMP_cartContext from "./useTEMP_cartContext"
+import useCartContext from "./useCartContext"
 
 export default function useCart() {
-  const { count } = useTEMP_cartContext()
+  const { count } = useCartContext()
 
   return {
     count,

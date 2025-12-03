@@ -1,7 +1,7 @@
-import useTEMP_cartContext from "./useTEMP_cartContext"
+import useCartContext from "./useCartContext"
 
 export default function useAsteroid(id: string) {
-  const { isInCart, addItem } = useTEMP_cartContext()
+  const { isInCart, addItem } = useCartContext()
 
   return {
     isInCart: isInCart(id),

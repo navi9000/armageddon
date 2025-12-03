@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from "@storybook/nextjs-vite"
 import component from "./Asteroid"
 import { Asteroid_v2 } from "@/types/api"
-import CartProvider from "@/features/cart/TEMP_CartProvider"
+import CartProvider from "@/features/cart/CartProvider"
 import { useSearchParams } from "next/navigation"
 import { mocked } from "storybook/test"
 import addToCart from "@/actions/addToCart"

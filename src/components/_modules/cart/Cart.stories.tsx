@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/nextjs-vite"
 import component from "./Cart"
-import CartProvider from "@/features/cart/TEMP_CartProvider"
+import CartProvider from "@/features/cart/CartProvider"
 import { useRouter } from "next/navigation"
 import { mocked } from "storybook/test"
 import type { Asteroid_v2 } from "@/types/api"

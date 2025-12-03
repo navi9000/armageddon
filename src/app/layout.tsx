@@ -6,7 +6,7 @@ import styles from "./layout.module.css"
 import { PropsWithChildren, Suspense } from "react"
 import { cacheTag } from "next/cache"
 import { CartItem } from "./api/_db/database"
-import TEMP_CartProvider from "@/features/cart/TEMP_CartProvider"
+import TEMP_CartProvider from "@/features/cart/CartProvider"
 
 const CartWrapper: MyFC<PropsWithChildren> = async ({ children }) => {
   "use cache"

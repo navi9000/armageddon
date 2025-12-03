@@ -4,7 +4,7 @@ import LoadedAsteroid from "@/components/asteroid-showcase/LoadedAsteroid"
 import { cacheLife, cacheTag } from "next/cache"
 import { PropsWithChildren, Suspense } from "react"
 import { CartItem } from "@/app/api/_db/database"
-import TEMP_CartProvider from "@/features/cart/TEMP_CartProvider"
+import TEMP_CartProvider from "@/features/cart/CartProvider"
 
 const Cached: MyFC<PageProps<"/asteroid/[id]">> = async ({ params }) => {
   "use cache"
