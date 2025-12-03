@@ -14,7 +14,7 @@ const Cached: MyFC<PageProps<"/asteroid/[id]">> = async ({ params }) => {
   const res = await fetch(ROOT_URL.concat("/api/asteroids/", id))
 
   if (!res.ok) {
-    return <main>Error</main>
+    throw res.statusText
   }
 
   const json = await res.json()

@@ -6,7 +6,7 @@ import styles from "./layout.module.css"
 import { PropsWithChildren, Suspense } from "react"
 import { cacheTag } from "next/cache"
 import { CartItem } from "./api/_db/database"
-import TEMP_CartProvider from "@/features/cart/CartProvider"
+import CartProvider from "@/features/cart/CartProvider"
 
 const CartWrapper: MyFC<PropsWithChildren> = async ({ children }) => {
   "use cache"
@@ -18,7 +18,7 @@ const CartWrapper: MyFC<PropsWithChildren> = async ({ children }) => {
     },
   }).then((res) => res.map((item) => item.dataValues))
 
-  return <TEMP_CartProvider initialData={data}>{children}</TEMP_CartProvider>
+  return <CartProvider initialData={data}>{children}</CartProvider>
 }
 
 const GlobalLayout: MyFC<LayoutProps<"/">> = ({ children }) => {
