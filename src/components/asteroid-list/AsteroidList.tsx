@@ -19,7 +19,7 @@ const AsteroidList: MyFC = () => {
   })
 
   const flatList = (data?.pages.flatMap((page) =>
-    Object.entries(page.asteroidList).map(([_, item]) => item)
+    Object.entries(page.asteroidList).map(([_, item]) => item),
   ) ?? []) as Asteroid_v2[]
 
   const parentRef = useRef<HTMLDivElement>(null)

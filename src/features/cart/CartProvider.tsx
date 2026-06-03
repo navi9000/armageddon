@@ -1,30 +1,18 @@
 "use client"
 
 import { MyFC } from "@/types"
-import {
-  PropsWithChildren,
-  useState,
-  useEffect,
-  useOptimistic,
-  startTransition,
-} from "react"
+import { PropsWithChildren, useOptimistic, startTransition } from "react"
 import CartContext from "./CartContext"
 import addToCart from "@/actions/addToCart"
 
 const CartProvider: MyFC<
   PropsWithChildren<{ initialData: { asteroidId: string }[] }>
 > = ({ children, initialData }) => {
-  const [asteroidIdList, setAsteroidIdList] = useState<string[]>(
-    initialData.map((item) => item.asteroidId)
-  )
-
-  useEffect(() => {
-    setAsteroidIdList(initialData.map((item) => item.asteroidId))
-  }, [initialData])
+  const asteroidIdList = initialData.map((item) => item.asteroidId)
 
   const [optimisticAsteroidList, addOptimisticItem] = useOptimistic(
     asteroidIdList,
-    (prev, newId: string) => [...prev, newId]
+    (prev, newId: string) => [...prev, newId],
   )
 
   const addItem = async (asteroidId: string) => {
